@@ -4,15 +4,17 @@ const assgimentSchema = mongoose.Schema(
   {
     title: {
       type: String,
-      require: [true, "pls enter your first name"],
+      require: [true, "pls enter title of assignment"],
     },
     description: { type: String, required: true },
-    assignedTo: { type: mongoose.Schema.Types.ObjectId, ref: "User", required }, // Admin ID
-    createdBy: {
+    //user who created the assignment
+    userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
       required,
-    }, // User who created the assignment
+    },
+    //user who assigned the assignment
+    adminId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required }, // Admin ID
     status: {
       type: String,
       enum: ["pending", "approved", "rejected"],

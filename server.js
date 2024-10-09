@@ -17,11 +17,15 @@ app.use(
 app.use(express.json());
 //for handling json body urlencoded data from front-end
 app.use(express.urlencoded({ extended: false }));
-// connectDB();
+
+//database connection
+connectDB();
 
 app.get("/", (req, res) => {
   res.send({ msg: "server is working fine" });
 });
+//all the routes for serve
+app.use("/", require("./Routes/authRoute"));
 
 app.use(errorHandler);
 
