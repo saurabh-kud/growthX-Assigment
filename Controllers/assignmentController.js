@@ -59,6 +59,7 @@ const fetchUserAllAssignment = asyncHandler(async (req, res) => {
       })
       .select("-userId")
       .populate("adminId", "name") // Populating the userId field and fetching only the name
+      .sort({ createdAt: -1 })
       .exec();
     res.status(200).json({
       status: true,
@@ -80,6 +81,7 @@ const fetchAdminAssignedAssignment = asyncHandler(async (req, res) => {
       })
       .select("-adminId")
       .populate("userId", "name") // Populating the userId field and fetching only the name
+      .sort({ createdAt: -1 })
       .exec();
     res.status(200).json({
       status: true,
