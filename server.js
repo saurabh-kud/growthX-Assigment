@@ -26,6 +26,7 @@ app.get("/", (req, res) => {
 });
 //all the routes for serve
 app.use("/", require("./Routes/authRoute"));
+app.use("/", require("./Routes/assigmentRoute"));
 
 app.use(errorHandler);
 

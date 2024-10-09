@@ -11,10 +11,14 @@ const assgimentSchema = mongoose.Schema(
     userId: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "User",
-      required,
+      required: true,
     },
     //user who assigned the assignment
-    adminId: { type: mongoose.Schema.Types.ObjectId, ref: "User", required }, // Admin ID
+    adminId: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    }, // Admin ID
     status: {
       type: String,
       enum: ["pending", "approved", "rejected"],

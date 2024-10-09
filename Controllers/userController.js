@@ -7,21 +7,33 @@ const jwt = require("jsonwebtoken");
 //user register
 const register = asyncHandler(async (req, res) => {
   const { name, email, password, role } = req.body;
-  if (!name || !email || !password) {
-    res.status(400);
-    throw new Error("all field is required");
+
+  if (!name) {
+    res.status(422);
+    throw new Error("Name is required");
+  } else if (!email) {
+    res.status(422);
+    throw new Error("Email is required");
+  } else if (!password) {
+    res.status(422);
+    throw new Error("Password is required");
   }
-  //cheking user available in database
-  if (await users.findOne({ email })) {
-    res.status(403);
-    throw new Error("User already exist");
-  }
+
   try {
+    //cheking user available in database
+    if (await users.findOne({ email })) {
+      res.status(409);
+      throw new Error("User already exist please login!");
+    }
+
     const hasedPassword = await bcrypt.hash(password, 10);
     const user = await users.create({
       name,
       email,
-      role: role && role == "admin" ? "admin" : "user",
+      role:
+        role && typeof role == "string" && role.toLowerCase() === "admin"
+          ? "admin"
+          : "user",
       password: hasedPassword,
     });
 
@@ -51,26 +63,31 @@ const register = asyncHandler(async (req, res) => {
       });
     }
   } catch (error) {
-    res.status(400);
-    throw new Error("something went wrong ", error.message);
+    console.log(error.message);
+    throw new Error(error.message);
   }
 });
 
 //user login
-
 const login = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
-  if (!email || !password) {
-    res.status(400);
-    throw new Error("all field is mandotory");
+
+  if (!email) {
+    res.status(422);
+    throw new Error("Email is required");
+  } else if (!password) {
+    res.status(422);
+    throw new Error("Password is required");
   }
 
-  const available = await users.findOne({ email });
-  if (!available) {
-    res.status(404);
-    throw new Error("user doesn't exist");
-  }
   try {
+    //find user in db
+    const available = await users.findOne({ email });
+    if (!available) {
+      res.status(401);
+      throw new Error("User doesn't exist please register");
+    }
+    //if user available then create token using credential and send back
     if (
       available &&
       (await bcrypt.compare(String(password), available.password))
@@ -91,23 +108,20 @@ const login = asyncHandler(async (req, res) => {
         message: "User login successfull",
         data: {
           id: available.id,
-          fullname: available.fullname,
+          name: available.name,
           email: available.email,
-          phone: available.phone,
-          gender: available.gender,
-
-          address: available.address,
+          role: available.role,
           accessToken,
           refreshToken,
         },
       });
     } else {
-      console.log();
       res.status(401);
-      throw new Error("user is Unauthorized");
+      throw new Error("Email or password is wrong");
     }
   } catch (error) {
-    console.log(error);
+    console.log(error.message);
+    throw new Error(error.message);
   }
 });
 
@@ -115,37 +129,36 @@ const login = asyncHandler(async (req, res) => {
 const profile = asyncHandler(async (req, res) => {
   res.status(200).json({
     status: true,
-    message: "sucessfully get profile ",
+    message: "sucessfully get profile",
     data: req.user,
   });
 });
 
 //update profile details after authorization
 const profileUpdate = asyncHandler(async (req, res) => {
-  const id = req.params.id;
-  if (id !== req.user._id.toString()) {
-    res.status(401);
-    throw new Error("token is invalid");
+  const { name, email } = req.body;
+  if (!name) {
+    res.status(422);
+    throw new Error("Name is required");
+  } else if (!email) {
+    res.status(422);
+    throw new Error("Email is required");
   }
-  const { fullname, email, phone, password, address } = req.body;
-  if (!fullname || !email || !phone || !password || !address) {
-    res.status(400);
-    throw new Error("all field is required");
-  }
+
+  id = req.user._id;
   try {
-    const hasedPassword = await bcrypt.hash(password, 10);
     const user = await users.findByIdAndUpdate(
       id,
       {
-        fullname,
-        lname,
-        email,
-        phone,
-        password: hasedPassword,
-        address,
+        name: name,
+        email: email,
       },
       { new: true }
     );
+    if (!user) {
+      res.status(400);
+      throw new Error("user id not valid");
+    }
 
     if (user) {
       res.status(201).json({
@@ -153,18 +166,15 @@ const profileUpdate = asyncHandler(async (req, res) => {
         message: "User profile updated",
         data: {
           id: user._id,
-          fullname: user.fullname,
+          name: user.name,
           email: user.email,
-          phone: user.phone,
-          gender: user.gender,
-
-          address: user.address,
+          role: user.role,
         },
       });
     }
   } catch (error) {
-    res.status(400);
-    throw new Error("something went wrong");
+    console.log(error.message);
+    throw new Error("something went wrong", error.message);
   }
 });
 
@@ -192,25 +202,46 @@ const refresh = asyncHandler(async (req, res) => {
     res.status(404);
     throw new Error("provide valid refresh token");
   }
-  const user = await users.findOne({ email });
-  if (user) {
-    const accesstoken = jwt.sign(
-      { user: { email: user.email, id: user._id } },
-      process.env.ACCESS_SECRET,
-      { expiresIn: "15m" }
-    );
-    const refreshToken = jwt.sign(
-      { user: { email: user.email, id: user._id } },
-      process.env.REFRESH_SECRET,
-      { expiresIn: "1d" }
-    );
+
+  try {
+    const user = await users.findOne({ email });
+    if (user) {
+      const accesstoken = jwt.sign(
+        { user: { email: user.email, id: user._id } },
+        process.env.ACCESS_SECRET,
+        { expiresIn: "1d" }
+      );
+      const refreshToken = jwt.sign(
+        { user: { email: user.email, id: user._id } },
+        process.env.REFRESH_SECRET,
+        { expiresIn: "3d" }
+      );
+      res.status(200).json({
+        accessToken: accesstoken,
+        refreshToken: refreshToken,
+      });
+    } else {
+      res.status(401);
+      throw new Error("invalid refresh token");
+    }
+  } catch (error) {
+    console.log(error.message);
+    throw new Error(error.message);
+  }
+});
+
+//fetch all admins
+const getAllAdmin = asyncHandler(async (req, res) => {
+  try {
+    admins = await users.find({ role: "admin" }).select("-password");
     res.status(200).json({
-      accessToken: accesstoken,
-      refreshToken: refreshToken,
+      type: "success",
+      message: "admin fetched successfully",
+      data: admins,
     });
-  } else {
-    res.status(401);
-    throw new Error("inval_id refresh token");
+  } catch (error) {
+    console.log(error.message);
+    throw new Error(error.message);
   }
 });
 
@@ -220,4 +251,5 @@ module.exports = {
   profile,
   profileUpdate,
   refresh,
+  getAllAdmin,
 };

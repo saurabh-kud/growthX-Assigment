@@ -62,7 +62,7 @@ const authAdmin = asyncHandler(async (req, res, next) => {
       const { email } = decode.user;
       const user = await users.findOne({ email }).select("-password");
 
-      if (user.user_type == "admin") {
+      if (user.role == "admin") {
         req.user = user;
         next();
       } else {

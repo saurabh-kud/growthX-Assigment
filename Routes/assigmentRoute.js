@@ -1,22 +1,24 @@
 const express = require("express");
 const {
-  register,
-  login,
-  profile,
-  refresh,
-  profileUpdate,
-} = require("../Controllers/userController");
+  createAssigment,
+  fetchUserAllAssignment,
+  fetchAdminAssignedAssignment,
+  acceptAssigment,
+  rejectAssigment,
+} = require("../Controllers/assignmentController");
 
 const { auth, authAdmin } = require("../Middlewares/authMiddleware");
 
 //routing for authentication
 const router = express.Router();
-router.post("/register", register);
-router.post("/login", login);
-router.get("/me", auth, profile);
-router.put("/:id/profile", auth, profileUpdate);
-router.post("/refresh", refresh);
-// router.get("/admin", authAdmin, getRegistration);
-// router.post("/admin", authAdmin, registrationApproval);
+
+//user assignment route
+router.post("/upload", auth, createAssigment);
+router.get("/usr-assignments", auth, fetchUserAllAssignment);
+
+//admin assignmet route
+router.post("/assignments/:id/accept", authAdmin, acceptAssigment);
+router.post("/assignments/:id/reject", authAdmin, rejectAssigment);
+router.get("/assignments", authAdmin, fetchAdminAssignedAssignment);
 
 module.exports = router;

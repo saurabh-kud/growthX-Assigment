@@ -5,6 +5,7 @@ const {
   profile,
   refresh,
   profileUpdate,
+  getAllAdmin,
 } = require("../Controllers/userController");
 
 const { auth, authAdmin } = require("../Middlewares/authMiddleware");
@@ -14,7 +15,8 @@ const router = express.Router();
 router.post("/register", register);
 router.post("/login", login);
 router.get("/me", auth, profile);
-router.put("/:id/profile", auth, profileUpdate);
+router.put("/me", auth, profileUpdate);
 router.post("/refresh", refresh);
+router.get("/admins", auth, getAllAdmin);
 
 module.exports = router;
