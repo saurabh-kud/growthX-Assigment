@@ -181,8 +181,8 @@ RESPONSE 201
     "message": "User created successfully",
     "data": {
         "id": "67064a57d6c57f4d43d421cf",
-        "name": "saurabh kumar",
-        "email": "saurabh@gmail.com",
+        "name": "user2 raj",
+        "email": "user2@gmail.com",
         "role": "user",
         "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImVtYWlsIjoic2F1cmFiaEBnbWFpbC5jb20iLCJpZCI6IjY3MDY0YTU3ZDZjNTdmNGQ0M2Q0MjFjZiJ9LCJpYXQiOjE3Mjg0NjU0OTUsImV4cCI6MTcyODU1MTg5NX0.2CN1sstOBfLVYkVewDLUwzIXWe6i0uyQ7O44ZqTetr4",
         "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImVtYWlsIjoic2F1cmFiaEBnbWFpbC5jb20iLCJpZCI6IjY3MDY0YTU3ZDZjNTdmNGQ0M2Q0MjFjZiJ9LCJpYXQiOjE3Mjg0NjU0OTUsImV4cCI6MTcyODcyNDY5NX0.QAoBX0pNGL3LhVVxSSJFDQVofAIVRkHSOG68HRGqqPs"
@@ -215,8 +215,8 @@ RESPONSE 201
     "message": "User created successfully",
     "data": {
         "id": "6706013338459c1aa3e65368",
-        "name": "sachin kumar",
-        "email": "admin@gmail.com",
+        "name": "admin2",
+        "email": "admin2@gmail.com",
         "role": "admin",
         "accessToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwiaWQiOiI2NzA2MDEzMzM4NDU5YzFhYTNlNjUzNjgifSwiaWF0IjoxNzI4NDQ2NzcyLCJleHAiOjE3Mjg1MzMxNzJ9.db67j1m03tmDOOYYzpRDcGoMZpaVnDgdiPkYot5OYYw",
         "refreshToken": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjp7ImVtYWlsIjoiYWRtaW5AZ21haWwuY29tIiwiaWQiOiI2NzA2MDEzMzM4NDU5YzFhYTNlNjUzNjgifSwiaWF0IjoxNzI4NDQ2NzcyLCJleHAiOjE3Mjg3MDU5NzJ9.yCYP_IRH3hoSajrwV-LHSK3qq_v4yBWoW8mtZiPcA_Q"
