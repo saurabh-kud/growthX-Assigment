@@ -3,6 +3,7 @@ const cors = require("cors");
 const connectDB = require("./config/db");
 const errorHandler = require("./Middlewares/errorHandlerMiddleware");
 const getUptime = require("./Config/uptime");
+require("dotenv").config();
 
 const port = process.env.PORT || 8080;
 const app = express();
