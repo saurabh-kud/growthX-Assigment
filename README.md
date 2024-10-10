@@ -25,7 +25,7 @@
 
 > api might be show for first time because it is hosted on free service if we don't use that for sometime render shut-down service and it can take ~50sec to spin up
 
-## live-link 🔗
+## Frontend live-link 🔗
 
 [https://task-growthx.netlify.app/](https://task-growthx.netlify.app/)
 
@@ -599,7 +599,8 @@ RESPONSE 200
 
 </p>
 </details>
-# Screenshot
+
+## Screenshot
 
 - Frontend
 <div align="center">
