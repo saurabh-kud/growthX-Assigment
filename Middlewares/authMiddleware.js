@@ -2,6 +2,8 @@ const jwt = require("jsonwebtoken");
 const users = require("../Models/userModel");
 const asyncHandler = require("express-async-handler");
 
+
+//middleware for checking user is authorized or not 
 const auth = asyncHandler(async (req, res, next) => {
   const reqHeader = req.headers.Authorization || req.headers.authorization;
 
@@ -39,6 +41,8 @@ const auth = asyncHandler(async (req, res, next) => {
   }
 });
 
+
+//middleware for checking user is admin or not 
 const authAdmin = asyncHandler(async (req, res, next) => {
   const reqHeader = req.headers.Authorization || req.headers.authorization;
 

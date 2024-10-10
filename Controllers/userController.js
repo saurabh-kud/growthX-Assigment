@@ -105,7 +105,7 @@ const login = asyncHandler(async (req, res) => {
       res.status(200);
       res.json({
         status: true,
-        message: "User login successfull",
+        message: "Login successfull",
         data: {
           id: available.id,
           name: available.name,
@@ -180,14 +180,14 @@ const profileUpdate = asyncHandler(async (req, res) => {
 
 //get access token after check valid refresh token
 const refresh = asyncHandler(async (req, res) => {
-  const { refresh_Token } = req.body;
-  if (!refresh_Token) {
+  const { refreshToken } = req.body;
+  if (!refreshToken) {
     res.status(400);
-    throw new Error("refresh token is required");
+    throw new Error("Refresh token is required");
   }
 
   try {
-    var decode = jwt.decode(refresh_Token);
+    var decode = jwt.decode(refreshToken);
   } catch (error) {
     res.status(401);
     throw new Error("provide valid refresh token");

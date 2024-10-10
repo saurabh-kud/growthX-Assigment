@@ -41,6 +41,7 @@ const createAssigment = asyncHandler(async (req, res) => {
         id: assignment_data.id,
         title: assignment_data.title,
         description: assignment_data.description,
+        status: assignment_data.status,
         adminId: assignment_data.adminId,
       },
     });
