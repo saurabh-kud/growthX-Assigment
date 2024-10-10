@@ -19,15 +19,19 @@
 
 [https://documenter.getpostman.com/view/38681155/2sAXxQcrmK](https://documenter.getpostman.com/view/38681155/2sAXxQcrmK)
 
-## live-link 🔗
-
-[https://task-growthx.netlify.app/](https://task-growthx.netlify.app/)
-
 ## Api-Base-URL 🔗
 
 [https://growthx-assignment-253v.onrender.com](https://growthx-assignment-253v.onrender.com)
 
 > api might be show for first time because it is hosted on free service if we don't use that for sometime render shut-down service and it can take ~50sec to spin up
+
+## live-link 🔗
+
+[https://task-growthx.netlify.app/](https://task-growthx.netlify.app/)
+
+## Frontend repo link 🔗
+
+[https://github.com/saurabh-kud/growthX-Assigment-frontend](https://github.com/saurabh-kud/growthX-Assigment-frontend)
 
 ## creadential for testing purpous you can also create new account
 
@@ -89,14 +93,14 @@ You are tasked with developing a backend system for an assignment submission por
 # Bonus Added
 
 - Added user can see their submit assignment `GET /usr-assignments`
-- added refresh token route to get their token using refreh token `POST /refresh`
-- Added Basic Frontend to demonstrate the full wokking api
+- added refresh token route to get their token using refresh token `POST /refresh`
+- Added Basic Frontend to demonstrate the full working api
 
 # tech stack used
 
 Backend
 
-- nodejs, express
+- nodejs, express,jwt, bcrypt
 
 Database
 
@@ -190,6 +194,8 @@ RESPONSE 201
 </details>
 
 > [POST] Admin Register Endpoint [/register](https://growthx-assignment-253v.onrender.com/register)
+
+> For admin registration you have to pass role as admin for normal user no need to pass role
 
 <details open>
 <summary> See response</summary>
@@ -291,7 +297,7 @@ Headers : Bearer eyJhbGciO.......
 
 {
     "name": "updated name",
-    "email" :"test@gmail.com"
+    "email" :"updated@gmail.com"
 }
 
 RESPONSE 201
